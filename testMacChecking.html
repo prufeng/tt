@@ -1,0 +1,161 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="https://cmsuat.bmo.com/hism/resources/lib/jquery/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        function initPage() {
+            checkMacProgramInstall()
+        }
+        var data, port, status;
+        var allowInstallFlag = '';
+        var flag = false;
+        var count = 0;
+        var yesCount = 239;
+        var portArr = [18090, 18091, 18092, 18093, 18094];
+        function checkMacProgramInstall() {
+            // document.getElementById('collapseListGroup_signin3').style.display = ''
+            if (data == null || "" === data && !count > 3) {
+                status = setInterval(randomCall, 1000);
+            }
+        }
+
+        function randomCall() {
+            for (let i in portArr) {
+                port = portArr[i];
+                getMacData();
+                if (flag) {
+                    break;
+                }
+            }
+            count++;
+            if (count > 2) {
+                $('#collapseListGroup_signin3').show();
+                clearInterval(status);
+                allowInstallFlag = "N";
+            }
+        }
+        function randomCallYes() {
+            for (let i in portArr) {
+                port = portArr[i];
+                getMacData();
+                if (flag) {
+                    break;
+                }
+            }
+            count++;
+            if (count > yesCount) {
+                // $('#collapseListGroup_signin4').hide();
+                // $('#collapseListGroup_signin5').show();
+                document.getElementById('collapseListGroup_signin4').style.display = 'none'
+                document.getElementById('collapseListGroup_signin5').style.display = ''
+                clearInterval(status);
+            }
+        }
+
+        function getMacData() {
+            // var xmlh = createXMLHttpRequest();
+            // xmlh.open();
+            $.ajax({
+            	url: "http://localhost:"+port+"/macAddr/getMac",
+            	type: "GET",
+            	async:true,
+            	data: {},
+            	dataType: 'text',
+            	success: function (result) {
+                    console.log('success ', result)
+            		if(result != null && "" !== result){
+            			flag = true;
+            			data = result;
+            			$('#collapseListGroup_signin3').hide();
+            			$('#collapseListGroup_signin4').hide();
+            			$('#collapseListGroup_signin6').show();
+            			clearInterval(status);
+            		}
+            	},
+                error: function (xhr, status, error){
+                    console.log('error ', error)
+                }
+            });
+        }
+
+        //实例化XMLHttpRequest对象  
+        function createXMLHttpRequest() {
+            if (window.XMLHttpRequest) {
+                xmlHttp = new XMLHttpRequest();
+            } else if (window.ActiveXObject) {
+                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+        }
+    </script>
+</head>
+
+<body onload=initPage()>
+    <div class="panel panel-default rightMenu">
+        <div class="panel-heading" id="collapseListGroupHeading_signin3" data-toggle="collapse"
+            data-target="#collapseListGroup_mac" role="tab" onclick="changeToggleClass(this)">
+            <h4 class="panel-title">
+                <span translate="getMacTitle" class="ng-scope">MAC地址采集程序</span>
+                <span class="glyphicon glyphicon-chevron-up right" style="float: right"></span>
+            </h4>
+        </div>
+        <div id="collapseListGroup_mac" class="panel-collapse collapse in" role="tabpanel"
+            aria-labelledby="collapseListGroupHeading_signin3">
+            <div id="collapseListGroup_signin3" style="display: none" class="panel-collapse collapse in" role="tabpanel"
+                aria-labelledby="collapseListGroupHeading_signin3">
+                <div id="macCheckMsg1">
+                    <img class="notice-icon-style" src="https://cmsuat.bmo.com/hism/resources/img/notice.png">
+                    <span id="macInstallCheck" translate="macCheckMsg"
+                        class="ng-scope">未检测到MAC地址采集程序，请确认本次是否允许安装（仅支持PC端）？若本次未选择安装，则默认为之后安装。</span>
+                </div>
+                <div id="checkInstallButton&quot;&quot;" class="check-install-style">
+                    <button id="allowInstallButton" class="button-style" ng-click="chooseYes()"><span
+                            style="text-decoration: underline;" translate="yes" class="ng-scope">是</span> </button>
+                    <button id="noInstallButton" class="button-style no-install-button" ng-click="chooseNo()"><span
+                            style="text-decoration: underline;" translate="installLate"
+                            class="ng-scope">之后安装</span></button>
+                </div>
+            </div>
+            <div id="collapseListGroup_signin4" style="display: none" class="panel-collapse collapse in" role="tabpanel"
+                aria-labelledby="collapseListGroupHeading_signin3">
+                <div id="macCheckMsg2">
+                    <img class="notice-icon-style" src="https://cmsuat.bmo.com/hism/resources/img/notice.png">
+                    <span id="macInstallMsg" translate="macInstallMsg1" class="ng-scope">浏览器显示安装包下载完成后，请先阅读</span><b
+                        translate="collection3" class="ng-scope">MAC地址采集说明及程序安装指南</b><span translate="macInstallMsg3"
+                        class="ng-scope">，并依照</span><b translate="macInstallMsg2" class="ng-scope">程序安装指南</b><span
+                        translate="macInstallMsg4" class="ng-scope">进行安装。</span>
+                </div>
+            </div>
+            <div id="collapseListGroup_signin5" style="display: none" class="panel-collapse collapse in" role="tabpanel"
+                aria-labelledby="collapseListGroupHeading_signin3">
+                <div id="macCheckMsg3">
+                    <img class="notice-icon-style" src="https://cmsuat.bmo.com/hism/resources/img/notice.png">
+                    <span id="macNOInstallMsg" translate="macNOInstallMsg"
+                        class="ng-scope">未检测到MAC地址采集程序，本次未安装，请继续登录。</span>
+                </div>
+            </div>
+            <div id="collapseListGroup_signin6" style="display: none" class="panel-collapse collapse in" role="tabpanel"
+                aria-labelledby="collapseListGroupHeading_signin3">
+                <div id="macCheckMsg4">
+                    <img class="notice-icon-style" src="https://cmsuat.bmo.com/hism/resources/img/yes.png">
+                    <span id="macInstallSucMsg" translate="macInstallSucMsg"
+                        class="ng-scope">您已安裝MAC地址采集程序，请继续登录。</span>
+                </div>
+            </div>
+            <div id="collapseListGroup_signin7" class="panel-collapse collapse in" role="tabpanel"
+                aria-labelledby="collapseListGroupHeading_signin3">
+                <div id="macCollection">
+                    <span translate="collection2" class="ng-scope">关于用户设备MAC地址的信息采集和所需安装的MAC地址采集程序，更多说明详见</span><a
+                        rel="nofollow" id="modal-privacy2" class="collectionLinks ng-scope"
+                        style="text-decoration: underline;" ng-click="launch('privacy')"
+                        translate="collection4">BMO隐私声明-中国大陆地区</a><span translate="and1" class="ng-scope">及</span><a
+                        rel="nofollow" id="modal-collection" class="collectionLinks ng-scope"
+                        style="text-decoration: underline;" ng-click="launch('collection')"
+                        translate="collection3">MAC地址采集说明及程序安装指南</a><span translate="collection5"
+                        class="ng-scope">。</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
