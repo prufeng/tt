@@ -1,3 +1,0 @@
-关于MAC地址采集程序的详情介绍，请打开蒙行中国网银登录页面，点击“MAC地址采集程序”提示框中的“MAC地址采集说明及程序安装指南”链接。蒙行中国网银登录网址为https://www25.bmo.com。
- 
-For more information about the MAC Address Collection Program, please kindly access the BMO China Online Banking login page and click on the "MAC Address Collection Notice and Installation Guide” hyperlink provided in the "MAC Address Collection Program" box. The BMO China Online Banking login page can be accessed via https://www25.bmo.com.
